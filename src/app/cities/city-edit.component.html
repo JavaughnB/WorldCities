@@ -1,6 +1,6 @@
 <div class="city-edit">
     <h1>{{title}}</h1>
-    <p *ngIf="!city"><em>City not loading</em></p>
+    <p *ngIf="this.id && !city"><em>Loading</em></p>
     <form [formGroup] ="form" (ngSubmit)="onSubmit()">
         <mat-form-field>
             <mat-label>Name: </mat-label>
@@ -14,8 +14,14 @@
             <mat-label>Longitude: </mat-label>
             <input matInput formControlName="lon" required placeholder="Insert Longitude" type="number">
         </mat-form-field>
+        <mat-form-field *ngIf="countries">
+                <mat-label>---- Select a country -----</mat-label>
+                <mat-select formControlName="countryId" id="countryId">
+                     <mat-option *ngFor="let country of countries" value = "country.id"> {{country.name}}</mat-option>
+                </mat-select>
+        </mat-form-field>
         <div>
-            <button mat-flat-button color="primary" type="submit">Save</button>
+            <button mat-flat-button color="primary" type="submit">{{this.id ? "Save" : "Create"}} </button>
         </div>
             <button mat-flat-button color="secondary" [routerLink]="['/cities']">Cancel</button>
     </form>
