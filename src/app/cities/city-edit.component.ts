@@ -1,23 +1,22 @@
 import { Component, OnInit, Optional } from '@angular/core';
 import { HttpClient,HttpParams } from '@angular/common/http';
 import { ActivatedRoute,Router } from '@angular/router';
-import { FormGroup, FormControl, Validators, AbstractControl, AsyncValidator, AsyncValidatorFn } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { City } from './city';
 import { Country } from '../countries/country';
-import { ObserversModule } from '@angular/cdk/observers';
+import { BaseFormComponent } from '../base-form.component';
 
 @Component({
   selector: 'app-city-edit',
   templateUrl: './city-edit.component.html',
   styleUrls: ['./city-edit.component.scss']
 })
-export class CityEditComponent implements OnInit {
+export class CityEditComponent extends BaseFormComponent implements OnInit {
   title?: string;
-  form!: FormGroup;
   city?: City;
   url: string = environment.apiBaseUrl + 'Cities/';
   id?: number;
@@ -27,14 +26,15 @@ export class CityEditComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: HttpClient) { 
+      super()
   }
 
   ngOnInit(){
     this.form = new FormGroup({
-      name: new FormControl('', Validators.required),
-      lat: new FormControl('', Validators.required),
-      lon: new FormControl('', Validators.required),
-      countryId :new FormControl('',Validators.required)
+      name: new FormControl('', [ Validators.required]),
+      lat: new FormControl ('', [ Validators.required,Validators.pattern(/^[-]?[0-9]+(\.[0-9]{1,4})?$/)]),
+      lon: new FormControl ('', [ Validators.required,Validators.pattern(/^[-]?[0-9]+(\.[0-9]{1,4})?$/)]),
+      countryId :new FormControl('',[ Validators.required ])
     },null,this.isDupeCity());
     this.loadData();
   }

@@ -6,16 +6,15 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Country } from './country';
+import { BaseFormComponent } from '../base-form.component';
 
 @Component({
   selector: 'app-country-edit',
   templateUrl: './country-edit.component.html',
-  styleUrls: [ './country-edit.component.scss'
-  ]
+  styleUrls: [ './country-edit.component.scss']
 })
-export class CountryEditComponent implements OnInit {
+export class CountryEditComponent extends BaseFormComponent implements OnInit {
   title? :string;
-  form! :FormGroup;
   country? : Country;
   id?: number;
   countries? : Country[];
@@ -25,12 +24,15 @@ export class CountryEditComponent implements OnInit {
     private activateRoute : ActivatedRoute,
     private router: Router,
     private http: HttpClient
-  ) { }
+  ) { 
+    super();
+
+  }
 
   ngOnInit(): void {
     this.form = this.fb.group({
       name: ['', Validators.required,this.isDupeField("name")],
-      is02:['',[ Validators.required,Validators.pattern(/^[a-zA-Z]{2}$/)], this.isDupeField("iso2") ],  
+      iso2:['',[ Validators.required,Validators.pattern(/^[a-zA-Z]{2}$/)], this.isDupeField("iso2") ],  
       iso3:['',[ Validators.required, Validators.pattern(/^[a-zA-Z]{3}$/)], this.isDupeField("iso3")]
     });
    this.loadData();
@@ -73,7 +75,7 @@ export class CountryEditComponent implements OnInit {
           },error => console.error(error));
     }
   }
-  isDupeField (fieldName: string){
+  isDupeField (fieldName: string): AsyncValidatorFn{
       return (control: AbstractControl): Observable <{
         [key:string] :any
         } | null > => {
