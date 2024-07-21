@@ -10,12 +10,12 @@
         <mat-form-field>
             <mat-label>ISO2: </mat-label>
             <input matInput formControlName="iso2" required placeholder="Enter the ISO2 number"/>
-            <mat-error *ngFor="let error of getErrors(form.get('iso2')!,'ISO 3166-1 ALPHA 2 Country code')">{{error}}</mat-error>
+            <mat-error *ngFor="let error of getErrors(form.get('iso2')!,'ISO 3166-1 ALPHA 2 Country code',{'pattern' : 'requires 2 letters'})">{{error}}</mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>ISO3: </mat-label>
             <input matInput formControlName="iso3" required placeholder="Enter the ISO3 number"/>
-            <mat-error *ngFor="let error of getErrors(form.get('iso3')!,'ISO ALPHA 3 Country Code')">{{error}}</mat-error>     
+            <mat-error *ngFor="let error of getErrors(form.get('iso3')!,'ISO ALPHA 3 Country Code',{'pattern' : 'requires 3 letters'})">{{error}}</mat-error>     
         </mat-form-field>
     <button mat-flat-button color="primary" type="submit" [routerLink]="['/countries']"> {{ this.id? "Save" : "Create"}}</button>
     <button mat-flat-button color="secondary" [routerLink]="['/countries']">Cancel</button> 
