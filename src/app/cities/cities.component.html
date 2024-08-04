@@ -1,7 +1,9 @@
+<div class="jumbotron">
 <h1>Cities</h1>
 <p>Heres a list of cities: feel free to play with it</p>
 <p *ngIf="!cities"> <em>Loading</em></p>
 <button mat-flat-button color="primary" class="bn-add" *ngIf="cities" [routerLink]="['/city']">Add a new city</button>
+<br>
 <mat-form-field [hidden]="!cities">
     <input matInput #filter (keyup)="onFilterTextChanged(filter.value)" placeholder="Filter by name (or part of it)"> 
 </mat-form-field>
@@ -34,3 +36,4 @@
     <tr mat-row *matRowDef="let row;columns: displayedColumns;"></tr>
  </table>
  <mat-paginator [hidden] = "!cities" [pageSize]="10" [pageSizeOptions]="[10, 20, 50]" (page)="getData($event)" showFirstLastButtons></mat-paginator>
+</div>
